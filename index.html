@@ -96,4 +96,16 @@ document.addEventListener("click",function(e){
  else if(a=="addt"){var ti=document.getElementById("tk"),t=ti.value.trim();if(!t){ti.style.borderColor="#e8332a";ti.placeholder="اكتبي المهمة الأول ☝️";ti.focus();return}f.tasks.push({t:t,d:false})}
  else if(a=="tog")f.tasks[i].d=!f.tasks[i].d;
  else if(a=="up"&&i>0){var x=f.tasks.splice(i,1)[0];f.tasks.splice(i-1,0,x)}
- else if(a=="dn"&&i<f.ta
+  else if(a=="dn"&&i<f.tasks.length-1){var y=f.tasks.splice(i,1)[0];f.tasks.splice(i+1,0,y)}
+ else if(a=="delt"){if(armed=="t"+i){f.tasks.splice(i,1);armed=null}else{armed="t"+i;setTimeout(function(){armed=null},2500);b.textContent="؟";return}}
+ else if(a=="delf"){if(armed=="f"){S.folders=S.folders.filter(function(x){return x!==f});view=null;armed=null}else{armed="f";render();return}}
+ else if(a=="exp"){var l=document.createElement("a");l.href="data:application/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(S));l.download="cany-backup.json";l.click();return}
+ else if(a=="imp"){document.getElementById("f").click();return}
+ save();render();
+});
+document.addEventListener("keydown",function(e){if(e.key=="Enter"){var t=e.target.id;if(t=="nm")document.querySelector("[data-a=addf]").click();if(t=="tk")document.querySelector("[data-a=addt]").click()}});
+document.getElementById("f").addEventListener("change",function(e){var fl=e.target.files[0];if(!fl)return;var rd=new FileReader();rd.onload=function(){try{var d=JSON.parse(rd.result);if(d.folders){S=d;view=null;save();render()}}catch(x){}};rd.readAsText(fl)});
+render();
+</script>
+</body>
+</html>
